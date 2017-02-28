@@ -1,2 +1,7 @@
 # leaningtrackermvc5
-Curso de mvc 5 fundamentals
+Demo de uso de mvc 5
+
+Bootstrap
+Automapper
+Entity Framework
+
