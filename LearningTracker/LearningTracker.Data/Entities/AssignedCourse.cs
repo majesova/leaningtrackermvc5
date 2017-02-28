@@ -1,27 +1,22 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 namespace LearningTracker.Data.Entities
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
-
-    [Table("AssignedCourse")]
-    public partial class AssignedCourse
+    public class AssignedCourse
     {
-        public int Id { get; set; }
-
-        [Column(TypeName = "date")]
-        public DateTime AssingmentDate { get; set; }
-
-        public bool IsCompleted { get; set; }
-
-        public int CustomerId { get; set; }
-
-        public int CourseId { get; set; }
-
-        public virtual Course Course { get; set; }
-
-        public virtual Customer Customer { get; set; }
+        public int? Id { get; set; }
+        public DateTime? AssignmentDate { get; set; }
+        public bool? IsCompleted { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? FinishDate { get; set; }
+        public decimal? TotalHours { get; set; }
+        public Course Course { get; set; }
+        public int? CourseId { get; set; }
+        public Individual Individual { get; set; }
+        public int? IndividualId  { get; set; }
     }
 }

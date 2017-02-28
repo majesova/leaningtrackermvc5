@@ -1,0 +1,134 @@
+﻿@model LearningTracker.Models.EditAssignmentCoursesViewModel
+
+@{
+    ViewBag.Title = "EditAssignment";
+}
+
+<h2>EditAssignment</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Editar Asignación</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+        <div class="form-group">
+
+            <label class="control-label col-md-2">
+                Asignación
+            </label>
+            <h4 class="col-md-10 text-success">
+                @Model.Course.Name -> @Model.Individual.Name
+            </h4>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AssignmentDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.AssignmentDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.AssignmentDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        
+      
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsCompleted, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.CheckBoxFor(model => model.IsCompleted, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.IsCompleted, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FinishDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FinishDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                @Html.ValidationMessageFor(model => model.FinishDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TotalHours, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TotalHours, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TotalHours, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @Html.HiddenFor(model=>model.IndividualId)
+        @Html.HiddenFor(model => model.CourseId)
+        @Html.HiddenFor(model => model.AssignmentDate)
+        
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+
+<script type="text/javascript">
+
+        var editAssignmentApp = (function () {
+
+            var showDialog = function () {
+
+            }
+
+            var start = function () {
+                
+                    $.validator.methods.date = function (value, element) {
+                        if ($.browser.webkit) {
+
+                            //ES - Chrome does not use the locale when new Date objects instantiated:
+                            var d = new Date();
+
+                            return this.optional(element) || !/Invalid|NaN/.test(new Date(d.toLocaleDateString(value)));
+                        }
+                        else {
+
+                            return this.optional(element) || !/Invalid|NaN/.test(new Date(value));
+                        }
+                    };
+                
+
+                $('.datepicker').datepicker({
+                    format: 'dd/mm/yyyy'
+                });
+            }
+
+            return {
+                start: start
+            }
+
+        })();
+
+
+        $(function () {
+            var module = editAssignmentApp;
+            module.start();
+        });
+
+</script>
+}

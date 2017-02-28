@@ -1,0 +1,46 @@
+﻿@model ICollection<LearningTracker.Models.AssignedCourseItem>
+@using LearningTracker.Helpers
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Cursos Asignados</h2>
+<p>
+    @Html.Button("btnAsignar","Asignar curso",@Url.Content("~/AssignedCourses/NewAssignment"))
+</p>
+
+<div class="container">
+
+    @foreach (var item in Model)
+    {
+        var classe = "panel-default";
+        if (item.IsCompleted.Value) {
+            classe = "panel-success";
+        }
+        <div class="col-md-3">
+            <div class="panel @classe">
+                <div class="panel-heading">
+                    <h3 class="panel-title">@item.Course.Name</h3>
+                </div>
+                <div class="panel-body">
+                    <p>@item.Individual.Name</p>
+                    <p>@item.AssignmentDate.Value.ToString("MM/dd/yyyy")</p>
+                    
+                </div>
+                <div class="panel-footer">
+                    <a href="@Url.Content("~/AssignedCourses/EditAssignment")/@item.Id" id="btnAsignar">Editar</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section scripts{
+
+<script type="text/javascript"> 
+    
+   
+ </script>
+    
+}
