@@ -25,5 +25,9 @@ namespace LearningTracker.Helpers
             });
             mapper = config.CreateMapper();
         }
+
+        public static T Map<T>(object source) {
+            return mapper.Map<T>(source);
+        }
     }
 }

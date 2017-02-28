@@ -52,7 +52,7 @@ namespace LearningTracker.Controllers
                     var emailExiste = repository.Query(x => x.Email == model.Email).Count > 0;
                     if (!emailExiste)
                     {
-                        var entity = MapperHelper.mapper.Map<Individual>(model);
+                        var entity = MapperHelper.Map<Individual>(model);
                         repository.Insert(entity);
                         context.SaveChanges();
                     }
@@ -76,7 +76,7 @@ namespace LearningTracker.Controllers
 
             var repository = new IndividualRepository(context);
             var entity = repository.Find(id);
-            var model = MapperHelper.mapper.Map<IndividualViewModel>(entity);
+            var model = MapperHelper.Map<IndividualViewModel>(entity);
             ModelState.Remove("Email");
             return View(model);
         }
@@ -90,7 +90,7 @@ namespace LearningTracker.Controllers
                 
                     var repository = new IndividualRepository(context);
                     ModelState.Remove("Email");
-                    var entity = MapperHelper.mapper.Map<Individual>(model);
+                    var entity = MapperHelper.Map<Individual>(model);
                     repository.Update(entity);
                     context.SaveChanges();
                     return RedirectToAction("Index");
@@ -107,7 +107,7 @@ namespace LearningTracker.Controllers
 
             var repository = new IndividualRepository(context);
             var entity = repository.Find(id);
-            var model = MapperHelper.mapper.Map<IndividualViewModel>(entity);
+            var model = MapperHelper.Map<IndividualViewModel>(entity);
             context.SaveChanges();
             return View(model);
         }

@@ -7,40 +7,49 @@
 
 <h2>Cursos Asignados</h2>
 <p>
-    @Html.Button("btnAsignar","Asignar curso",@Url.Content("~/AssignedCourses/NewAssignment"))
+    @Html.Button("btnAsignar", "Asignar curso", @Url.Content("~/AssignedCourses/NewAssignment"))
 </p>
+@using (Html.BeginForm())
+{<div class="form-inline">
+        <div class="form-group">
+            <input type="text" name="search" class="form-control" value="@ViewBag.search" />
+            <input type="submit" value="Filtrar" class="btn btn-default" />
+</div></div>
+            }
 
-<div class="container">
+            <div class="container">
 
-    @foreach (var item in Model)
-    {
-        var classe = "panel-default";
-        if (item.IsCompleted.Value) {
-            classe = "panel-success";
-        }
-        <div class="col-md-3">
-            <div class="panel @classe">
-                <div class="panel-heading">
-                    <h3 class="panel-title">@item.Course.Name</h3>
-                </div>
-                <div class="panel-body">
-                    <p>@item.Individual.Name</p>
-                    <p>@item.AssignmentDate.Value.ToString("MM/dd/yyyy")</p>
-                    
-                </div>
-                <div class="panel-footer">
-                    <a href="@Url.Content("~/AssignedCourses/EditAssignment")/@item.Id" id="btnAsignar">Editar</a>
-                </div>
+                @foreach (var item in Model)
+                {
+                    var classe = "panel-default";
+                    if (item.IsCompleted.Value)
+                    {
+                        classe = "panel-success";
+                    }
+                    <div class="col-md-3">
+                        <div class="panel @classe">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">@item.Course.Name</h3>
+                            </div>
+                            <div class="panel-body">
+                                <p>@item.Individual.Name</p>
+                                <p>@item.AssignmentDate.Value.ToString("MM/dd/yyyy")</p>
+
+                            </div>
+                            <div class="panel-footer">
+                                <a href="@Url.Content("~/AssignedCourses/EditAssignment")/@item.Id" id="btnAsignar">Editar</a>
+                            </div>
+                        </div>
+                    </div>
+                }
             </div>
-        </div>
-    }
-</div>
 
-@section scripts{
+            @section scripts{
 
-<script type="text/javascript"> 
-    
-   
- </script>
-    
-}
+                <script type="text/javascript">
+
+
+
+                </script>
+
+            }

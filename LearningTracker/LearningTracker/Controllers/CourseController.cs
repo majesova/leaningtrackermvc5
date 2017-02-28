@@ -23,7 +23,7 @@ namespace LearningTracker.Controllers
             
             var repository = new CourseRepository(context);
             var entities = repository.GetAll();
-            var model = MapperHelper.mapper.Map<IEnumerable<CourseViewModel>>(entities);
+            var model = MapperHelper.Map<IEnumerable<CourseViewModel>>(entities);
             return View(model);
         }
 
@@ -34,7 +34,7 @@ namespace LearningTracker.Controllers
             var repository = new CourseRepository(context);
             var includes = new Expression<Func<Course, object>>[] { x => x.Topics };
             var entity = repository.QueryIncluding(x => x.Id == id, includes).SingleOrDefault();
-            model = MapperHelper.mapper.Map<CourseDetailsViewModel>(entity);
+            model = MapperHelper.Map<CourseDetailsViewModel>(entity);
             return View(model);
         }
 
@@ -45,7 +45,7 @@ namespace LearningTracker.Controllers
             var repository = new CourseRepository(context);
             var topicRepository = new TopicRepository(context);
             var topics = topicRepository.Query(null, "Name");
-            model.AvailableTopics = MapperHelper.mapper.Map<ICollection<TopicViewModel>>(topics);
+            model.AvailableTopics = MapperHelper.Map<ICollection<TopicViewModel>>(topics);
             return View(model);
         }
 
@@ -58,7 +58,7 @@ namespace LearningTracker.Controllers
                 var repository = new CourseRepository(context);
                 var topicRepository = new TopicRepository(context);
                 var topics = topicRepository.Query(null, "Name");
-                model.AvailableTopics = MapperHelper.mapper.Map<ICollection<TopicViewModel>>(topics);
+                model.AvailableTopics = MapperHelper.Map<ICollection<TopicViewModel>>(topics);
                 
                 if (ModelState.IsValid) {
                     var entity = MapperHelper.mapper.Map<Course>(model);
@@ -88,7 +88,7 @@ namespace LearningTracker.Controllers
                 var topicRepository = new TopicRepository(context);
                 var topics = topicRepository.Query(null, "Name");
                 model = MapperHelper.mapper.Map<CourseViewModel>(entity);
-                model.AvailableTopics = MapperHelper.mapper.Map<ICollection<TopicViewModel>>(topics);
+                model.AvailableTopics = MapperHelper.Map<ICollection<TopicViewModel>>(topics);
                 model.SelectedTopics = entity.Topics.Select(x => x.Id.Value).ToArray();
                 return View(model);
             }
@@ -108,7 +108,7 @@ namespace LearningTracker.Controllers
                 var repository = new CourseRepository(context);
                 var topicRepository = new TopicRepository(context);
                 var topics = topicRepository.Query(null, "Name");
-                model.AvailableTopics = MapperHelper.mapper.Map<ICollection<TopicViewModel>>(topics);
+                model.AvailableTopics = MapperHelper.Map<ICollection<TopicViewModel>>(topics);
 
                 if (ModelState.IsValid)
                 {
@@ -134,7 +134,7 @@ namespace LearningTracker.Controllers
             var model = new CourseViewModel();
             var repository = new CourseRepository(context);
             var entity = repository.Find(id);
-            model = MapperHelper.mapper.Map<CourseViewModel>(entity);
+            model = MapperHelper.Map<CourseViewModel>(entity);
             return View(model);
         }
 

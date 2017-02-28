@@ -33,16 +33,22 @@ namespace LearningTracker.Controllers
         }
         // GET: AssignedCourses
         [Log]
-        public ActionResult Index()
+        public ActionResult Index(string search)
         {
             
             var repository = new AssignedCourseRepository(context);
             var includes = new Expression<Func<AssignedCourse, object>>[] { x => x.Course, x=>x.Individual};
             ICollection<AssignedCourse> etities = new List<AssignedCourse>();
-            
-               etities = repository.QueryIncluding(null, includes, "AssignmentDate");
-            
-            var model = MapperHelper.mapper.Map<ICollection<AssignedCourseItem>>(etities);
+
+            if (string.IsNullOrEmpty(search))
+            {
+                etities = repository.QueryIncluding(null, includes, "AssignmentDate");
+            }
+            else {
+                etities = repository.QueryIncluding(x=>x.Individual.Name.Contains(search), includes, "AssignmentDate");
+            }
+            ViewBag.search = search;
+            var model = MapperHelper.Map<ICollection<AssignedCourseItem>>(etities);
             return View(model);
         }
 
@@ -52,6 +58,7 @@ namespace LearningTracker.Controllers
             var model = new NewAssignmentCoursesViewModel();
             model.CoursesList = PopulateCourses(model.CourseId);
             model.IndividualList = PopulateIndividuals(model.IndividualId);
+            model.AssignmentDate = DateTime.Now;
             return View(model);
         }
 
@@ -61,7 +68,7 @@ namespace LearningTracker.Controllers
             try { 
 
             if (ModelState.IsValid) {
-                var entity = MapperHelper.mapper.Map<AssignedCourse>(model);
+                var entity = MapperHelper.Map<AssignedCourse>(model);
                 entity.IsCompleted = false;
                 repository.Insert(entity);
                 context.SaveChanges();
@@ -87,7 +94,7 @@ namespace LearningTracker.Controllers
             {
                 var includes = new Expression<Func<AssignedCourse, object>>[] { x => x.Course, x => x.Individual };
                 var entity = repository.QueryIncluding(x=>x.Id == id, includes, "AssignmentDate").SingleOrDefault();
-                model = MapperHelper.mapper.Map<EditAssignmentCoursesViewModel>(entity);
+                model = MapperHelper.Map<EditAssignmentCoursesViewModel>(entity);
                 return View(model);
             }
             catch (Exception ex) {
@@ -106,7 +113,7 @@ namespace LearningTracker.Controllers
                 
                 if (ModelState.IsValid) {
 
-                    var entityForUpd = MapperHelper.mapper.Map<AssignedCourse>(model);
+                    var entityForUpd = MapperHelper.Map<AssignedCourse>(model);
                     repository.Update(entityForUpd);
                     context.SaveChanges();
                     return RedirectToAction("Index");
@@ -114,8 +121,8 @@ namespace LearningTracker.Controllers
 
                 var includes = new Expression<Func<AssignedCourse, object>>[] { x => x.Course, x => x.Individual };
                 var entity = repository.QueryIncluding(x => x.Id == id, includes, "AssignmentDate").SingleOrDefault();
-                model.Course = MapperHelper.mapper.Map<CourseViewModel>(entity.Course);
-                model.Individual = MapperHelper.mapper.Map<IndividualViewModel>(entity.Individual);
+                model.Course = MapperHelper.Map<CourseViewModel>(entity.Course);
+                model.Individual = MapperHelper.Map<IndividualViewModel>(entity.Individual);
                 return View(model);
             }
             catch (Exception ex)
